@@ -67,7 +67,6 @@ has_one :purchase
 
 | Column     | Type        | Options                        |
 |------------|-------------|--------------------------------|
-| token      | references  | null: false, foreign_key: true |
 | user       | references  | null: false, foreign_key: true |
 | product    | references  | null: false, foreign_key: true |
 
@@ -84,7 +83,6 @@ has_one :address
 
 | Column         | Type       | Options                        |
 |----------------|------------|--------------------------------|
-| address        | string     | null: false                    |
 | post_code      | string     | null: false                    |
 | region_id      | integer    | null: false                    |
 | municipality   | string     | null: false                    |
