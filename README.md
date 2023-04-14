@@ -28,8 +28,8 @@ Things you may want to cover:
 | Column                    | Type               | Options                   |
 |---------------------------|--------------------|---------------------------|
 | nickname                  | string             | null: false               |
-| email                      | string             | null: false, unique: true |
-| password                  | encrypted_password | null: false               |
+| email                     | string             | null: false, unique: true |
+| encrypted_password        | string             | null: false               |
 | birthday                  | date               | null: false               |
 | first_name                | string             | null: false               |
 | last_name                 | string             | null: false               |
@@ -47,14 +47,14 @@ has_many : purchases
 | Column       | Type        | Options                        |
 |--------------|-------------|--------------------------------|
 | name         | string      | null: false                    |
-| image        | string      | null: false                    |
 | explanation  | text        | null: false                    |
-| status       | string      | null: false                    |
-| postage      | string      | null: false                    |
-| region       | string      | null: false                    |
-| date         | string      | null: false                    |
+| category_id  | integer     | null: false                    |
+| status_id    | integer     | null: false                    |
+| postage_id   | integer     | null: false                    |
+| region_id    | integer     | null: false                    |
+| date_id      | integer     | null: false                    |
 | price        | integer     | null: false                    |
-| user_id      | references  | null: false, foreign_key: true |
+| user         | references  | null: false, foreign_key: true |
 
 
 ### Association
@@ -68,15 +68,16 @@ has_one :purchase
 | Column     | Type        | Options                        |
 |------------|-------------|--------------------------------|
 | token      | references  | null: false, foreign_key: true |
-| user_id    | references  | null: false, foreign_key: true |
-| product_id | references  | null: false, foreign_key: true |
+| user       | references  | null: false, foreign_key: true |
+| product    | references  | null: false, foreign_key: true |
 
 
 
 ### Association
 
 belongs_to :user
-has_one :product
+belongs_to :product
+has_one :address
 
 
 ## addresses
@@ -85,13 +86,13 @@ has_one :product
 |----------------|------------|--------------------------------|
 | address        | string     | null: false                    |
 | post_code      | string     | null: false                    |
-| prefecture     | string     | null: false                    |
-| municipalities | string     | null: false                    |
+| region_id      | integer    | null: false                    |
+| municipality   | string     | null: false                    |
 | number         | string     | null: false                    |
 | building       | string     |                                |
 | telephone      | string     | null: false                    |
-| purchase_id    | references | null: false, foreign_key: true |
+| purchase       | references | null: false, foreign_key: true |
 
 ### Association
 
-has_one :purchase
+belongs_to :purchase
