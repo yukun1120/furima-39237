@@ -23,21 +23,18 @@ Things you may want to cover:
 
 * ...
 
-## user
+## users
 
-| Column                    | Type     | Options     |
-|---------------------------|----------|-------------|
-| nickname                  | string   | null: false |
-| mail                      | string   | null: false |
-| password                  | string   | null: false |
-| password_confirmation     | string   | null: false |
-| dd                        | integer  | null: false |
-| mm                        | integer  | null: false |
-| yyyy                      | integer  | null: false |
-| first_name                | string   | null: false |
-| last_name                 | string   | null: false |
-| first_name_kana           | string   | null: false |
-| last_name_kana            | string   | null: false |
+| Column                    | Type               | Options                   |
+|---------------------------|--------------------|---------------------------|
+| nickname                  | string             | null: false               |
+| email                      | string             | null: false, unique: true |
+| password                  | encrypted_password | null: false               |
+| birthday                  | date               | null: false               |
+| first_name                | string             | null: false               |
+| last_name                 | string             | null: false               |
+| first_name_kana           | string             | null: false               |
+| last_name_kana            | string             | null: false               |
 
 ### Association
 
@@ -45,7 +42,7 @@ has_many : products
 has_many : purchases
 
 
-## product
+## products
 
 | Column       | Type        | Options                        |
 |--------------|-------------|--------------------------------|
@@ -66,13 +63,13 @@ belongs_to :user
 has_one :purchase
 
 
-## purchase
+## purchases
 
 | Column     | Type        | Options                        |
 |------------|-------------|--------------------------------|
-| token      | string      | null: false, foreign_key: true |
-| user_id    | string      | null: false, foreign_key: true |
-| product_id | string      | null: false, foreign_key: true |
+| token      | references  | null: false, foreign_key: true |
+| user_id    | references  | null: false, foreign_key: true |
+| product_id | references  | null: false, foreign_key: true |
 
 
 
@@ -82,17 +79,18 @@ belongs_to :user
 has_one :product
 
 
-## address
+## addresses
 
-| Column         | Type        | Options                        |
-|----------------|-------------|--------------------------------|
-| address        | string      | null: false                    |
-| post_code      | integer     | null: false                    |
-| prefecture     | string      | null: false                    |
-| municipalities | string      | null: false                    |
-| number         | integer     | null: false                    |
-| building       | string      | null: false                    |
-| telephone      | integer     | null: false                   |
+| Column         | Type       | Options                        |
+|----------------|------------|--------------------------------|
+| address        | string     | null: false                    |
+| post_code      | string     | null: false                    |
+| prefecture     | string     | null: false                    |
+| municipalities | string     | null: false                    |
+| number         | string     | null: false                    |
+| building       | string     |                                |
+| telephone      | string     | null: false                    |
+| purchase_id    | references | null: false, foreign_key: true |
 
 ### Association
 
