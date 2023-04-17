@@ -46,13 +46,17 @@ RSpec.describe User, type: :model do
       it 'passwordは英字のみで登録できない' do
         @user.password = "abcdef"
         @user.valid?
-        binding.pry
-        expect(@user.errors.full_messages).to include("Password confirmation doesn't match Password")
+        expect(@user.errors.full_messages).to include("Password is invalid")
       end
       it 'passwordは数字のみで登録できない' do
         @user.password = "123456"
         @user.valid?
-        expect(@user.errors.full_messages).to include("Password confirmation doesn't match Password")
+        expect(@user.errors.full_messages).to include("Password is invalid")
+      end
+      it 'passwordは全角文字を含むパスワードでは登録できない' do
+        @user.password = "全角パスワード"
+        @user.valid?
+        expect(@user.errors.full_messages).to include("Password is invalid")
       end
       it '重複したemailが存在する場合は登録できない' do
         @user.save
