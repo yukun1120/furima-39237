@@ -5,7 +5,6 @@ function priceCalculation() {
   
   priceInput.addEventListener("input", function() {
     const price = priceInput.value;
-    console.log(price);
     const tax = Math.floor(price * 0.1);
     const profit = price - tax;
     commissionOutput.innerHTML = tax;

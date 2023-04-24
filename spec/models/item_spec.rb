@@ -62,6 +62,11 @@ RSpec.describe Item, type: :model do
         @item.valid?
         expect(@item.errors.full_messages).to include("Schedule catn't be blank")
       end
+      it "priceが空だと出品できない" do
+        @item.price = nil
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Price can't be blank")
+      end
       it "priceが299以下だと出品できない" do
         @item.price = 299
         @item.valid?
@@ -76,6 +81,11 @@ RSpec.describe Item, type: :model do
         @item.price = "1あAa"
         @item.valid?
         expect(@item.errors.full_messages).to include("Price is not a number")
+      end
+      it "ユーザー情報が紐付いていない場合" do
+        @item.user = nil
+        @item.valid?
+        expect(@item.errors.full_messages).to include("User must exist")
       end
     end
   end
