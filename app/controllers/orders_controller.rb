@@ -1,13 +1,12 @@
 class OrdersController < ApplicationController
   before_action :authenticate_user!
   def index
-    binding.pry
+    # binding.pry
     @order_address = OrderAddress.new
     @item = Item.find(params[:item_id])
     if @item.order.present? || current_user.id == @item.user_id
       redirect_to root_path
     end
-    
   end
 
 

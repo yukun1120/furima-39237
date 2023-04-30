@@ -4,16 +4,16 @@ class OrderAddress
 
   with_options presence: true do
     validates :user_id
-    validates :post_code
-    validates :region_id
+    validates :post_code, format: { with: /\A\d{3}-\d{4}\z/}
     validates :municipality
     validates :number
-    validates :building
-    validates :telephone
+    validates :telephone, numericality: { only_integer: true }, length: { minimum: 10, maximum: 11 }
     validates :token
     validates :item_id
-    # validates :order_id
   end
+  validates :region_id, numericality: { other_than: 1 }
+  
+
 
   def save
     order = Order.create(user_id: user_id, item_id: item_id)
