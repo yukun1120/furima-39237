@@ -2,29 +2,41 @@ require 'rails_helper'
 
 RSpec.describe OrderAddress, type: :model do
   before do
-    @order_address = FactoryBot.build(:order_address)
-  end
+      @order_address = FactoryBot.build(:order_address)
+      @order_address.user_id = 2
+      @order_address.item_id = 2
+      @order_address.post_code = "123-4567"
+      @order_address.region_id = 2
+      @order_address.municipality = "横浜市青葉区"
+      @order_address.number = "青葉台5−1"
+      @order_address.building = "青葉ビル"
+      @order_address.telephone = "09022222222"
+      @order_address.token = Faker::Alphanumeric.alpha(number: 20)
+      @order_address.save
+    end
+
 
   describe '購入機能' do
     context '購入できる場合' do
       it "すべての項目が適切に入力されている" do
         expect(@order_address).to be_valid
       end
-      it "建物以外が適切に入力されている" do
+      it "建物名は空でも保存できる" do
+        @order_address.building = ""
         expect(@order_address).to be_valid
       end
     end
 
     context '購入できない場合' do
-      it "郵便番号が適切でない" do
-        @order_address.post_code = nil
-        @order_address.valid?
-        expect(@order_address.errors.full_messages).to include("Post code is invalid")
-      end
       it "郵便番号が空" do
         @order_address.post_code = ""
         @order_address.valid?
-        expect(@order_address.errors.full_messages).to include("Post code can't be blank")
+        expect(@order_address.errors.full_messages).to include("Post code is invalid")
+      end
+      it "郵便番号はハイフン必須であること" do
+        @order_address.post_code = 1234567
+        @order_address.valid?
+        expect(@order_address.errors.full_messages).to include("Post code is invalid")
       end
       it "都道府県が未選択" do
         @order_address.region_id = 1
@@ -45,6 +57,16 @@ RSpec.describe OrderAddress, type: :model do
         @order_address.telephone = ""
         @order_address.valid?
         expect(@order_address.errors.full_messages).to include("Telephone can't be blank")
+      end
+      it "telephone9桁以下では保存できない" do
+        @order_address.telephone = "090222222"
+        @order_address.valid?
+        expect(@order_address.errors.full_messages).to include("Telephone is too short (minimum is 10 characters)")
+      end
+      it "telephone12桁以上では保存できない" do
+        @order_address.telephone = "090222222222"
+        @order_address.valid?
+        expect(@order_address.errors.full_messages).to include("Telephone is too long (maximum is 11 characters)")
       end
       it "電話番号が適切でない" do
         @order_address.telephone = "090-1234-5678"
