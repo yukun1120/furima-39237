@@ -1,6 +1,6 @@
 class OrdersController < ApplicationController
   before_action :authenticate_user!
-  berore_action :set_order, only: [:index, :create]
+  before_action :set_order, only: [:index, :create]
   def index
     @order_address = OrderAddress.new
     if @item.order.present? || current_user.id == @item.user_id
