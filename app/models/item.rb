@@ -10,6 +10,7 @@ class Item < ApplicationRecord
   belongs_to_active_hash :region
   belongs_to_active_hash :schedule
 
+  # with_options
   validates :name, presence: true, length: {maximum: 40}
   validates :explanation, presence: true, length: {maximum: 1000}
   validates :category_id, presence: true
