@@ -2,17 +2,9 @@ require 'rails_helper'
 
 RSpec.describe OrderAddress, type: :model do
   before do
-      @order_address = FactoryBot.build(:order_address)
-      @order_address.user_id = 2
-      @order_address.item_id = 2
-      @order_address.post_code = "123-4567"
-      @order_address.region_id = 2
-      @order_address.municipality = "横浜市青葉区"
-      @order_address.number = "青葉台5−1"
-      @order_address.building = "青葉ビル"
-      @order_address.telephone = "09022222222"
-      @order_address.token = Faker::Alphanumeric.alpha(number: 20)
-      @order_address.save
+    item = FactoryBot.create(:item)
+    user = FactoryBot.create(:user)
+    @order_address = FactoryBot.build(:order_address,item_id: item.id,user_id: user.id)
     end
 
 
@@ -61,17 +53,17 @@ RSpec.describe OrderAddress, type: :model do
       it "telephone9桁以下では保存できない" do
         @order_address.telephone = "090222222"
         @order_address.valid?
-        expect(@order_address.errors.full_messages).to include("Telephone is too short (minimum is 10 characters)")
+        expect(@order_address.errors.full_messages).to include("Telephone is invalid")
       end
       it "telephone12桁以上では保存できない" do
         @order_address.telephone = "090222222222"
         @order_address.valid?
-        expect(@order_address.errors.full_messages).to include("Telephone is too long (maximum is 11 characters)")
+        expect(@order_address.errors.full_messages).to include("Telephone is invalid")
       end
       it "電話番号が適切でない" do
         @order_address.telephone = "090-1234-5678"
         @order_address.valid?
-        expect(@order_address.errors.full_messages).to include("Telephone is not a number")
+        expect(@order_address.errors.full_messages).to include("Telephone is invalid")
       end
       it "ユーザーidが空" do
         @order_address.user_id = nil
